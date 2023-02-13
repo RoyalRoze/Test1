@@ -1,0 +1,23 @@
+class Elevator:
+    ...
+
+    def keep_it_moving(self):
+        while True:
+            yield self.next_move()
+
+    def next_move(self):
+        if self.floors_to_visit:
+            if len(self.floors_to_visit) == 1 and self.current_floor in self.floors_to_visit:
+                self.stay_on_floor()
+            elif self.going_up and max(self.floors_to_visit) > self.current_floor:
+                self.move_floors(1)
+            else:
+                self.going_up == False
+                self.move_floors(-1)
+    ...
+
+    def go_to_floor(self, floor):
+        self.log(f"Stop requested for floor {floor}")
+        self.floors_to_visit.add(floor)
+        next(self.keep_it_moving())
+        time.sleep(1)
